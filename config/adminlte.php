@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/admin/home',
 
     'logout_url' => 'logout',
 
@@ -145,11 +145,11 @@ return [
             'submenu' => [
                 [
                     'text' => 'Dashboard V1',
-                    'url'  => '/home',
+                    'url'  => '/admin/home',
                 ],
                 [
                     'text' => 'Dashboard V2',
-                    'url'  => '/home1',
+                    'url'  => '/admin/home1',
                 ]
             ]
         ],
