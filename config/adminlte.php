@@ -139,6 +139,21 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text'        => 'Dashboard',
+            'icon'        => 'far fa-dashboard',
+            'label_color' => 'success',
+            'submenu' => [
+                [
+                    'text' => 'Dashboard V1',
+                    'url'  => '/home',
+                ],
+                [
+                    'text' => 'Dashboard V2',
+                    'url'  => '/home1',
+                ]
+            ]
+        ],
+        [
             'text'        => 'pages',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-file',
