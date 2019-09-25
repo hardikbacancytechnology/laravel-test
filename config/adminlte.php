@@ -461,7 +461,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                   // 'location' => asset('js/custom.js'),
+                    'location' => env('APP_URL').'/public/js/custom.js',
                 ],
             ],
         ],
