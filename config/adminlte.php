@@ -129,7 +129,7 @@ return [
 
     'menu' => [
         [
-            'text' => 'search',
+            'text' => 'Search',
             'search' => true,
         ],
         ['header' => 'main_navigation'],
@@ -163,7 +163,7 @@ return [
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url'  => 'admin/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -278,6 +278,22 @@ return [
             ],
         ],
         [
+            'name' => 'Bootstrap3 wysihtml5',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
+                ],
+            ],
+        ],
+        [
             'name' => 'Select2',
             'active' => true,
             'files' => [
@@ -294,13 +310,120 @@ return [
             ],
         ],
         [
+            'name' => 'Morris',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/morris.js/morris.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/raphael/raphael.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/morris.js/morris.min.js',
+                ]
+            ],
+        ],
+        [
+            'name' => 'Jvectormap',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/jvectormap/jquery-jvectormap.css',
+                ]
+            ],
+        ],
+        [
             'name' => 'Chartjs',
             'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/chart.js/Chart.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Spark Line',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Knob',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/jquery-knob/dist/jquery.knob.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Moment',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/moment/min/moment.min.js',
+                ]
+            ],
+        ],
+        [
+            'name' => 'Date Picker',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Date Range Picker',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//adminlte.io/themes/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js',
                 ],
             ],
         ],
@@ -328,6 +451,17 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Custom JS',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                   // 'location' => asset('js/custom.js'),
                 ],
             ],
         ],
