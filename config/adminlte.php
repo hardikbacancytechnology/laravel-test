@@ -145,7 +145,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Dashboard V1',
-                    'url'  => '/admin/home',
+                    'url'  => '/admin/home'
                 ],
                 [
                     'text' => 'Dashboard V2',
@@ -154,9 +154,9 @@ return [
             ]
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-file',
+            'text'        => 'Users',
+            'url'         => 'admin/users',
+            'icon'        => 'fa fa-users',
             'label'       => 4,
             'label_color' => 'success',
         ],
@@ -271,9 +271,29 @@ return [
                     'location' => '//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js',
                 ],
                 [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js',
+                ],
+                [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css',
+                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css',
                 ],
             ],
         ],
@@ -434,7 +454,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js',
                 ],
             ],
         ],
@@ -451,6 +471,17 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Admin LTE Js',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => env('APP_URL').'/public/vendor/adminlte/dist/js/adminlte.min.js',
                 ],
             ],
         ],

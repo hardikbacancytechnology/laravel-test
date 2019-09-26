@@ -22,7 +22,7 @@
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="navbar-brand">
+                        <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="navbar-brand ajax_anchor">
                             {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
                         </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
@@ -39,7 +39,7 @@
                     <!-- /.navbar-collapse -->
             @else
             <!-- Logo -->
-            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo">
+            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo ajax_anchor">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">{!! config('adminlte.logo_mini', '<b>A</b>LT') !!}</span>
                 <!-- logo for regular state and mobile devices -->
@@ -108,31 +108,32 @@
             <!-- /.sidebar -->
         </aside>
         @endif
+        <div id="content">
+            <div class="ajax_contents">
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    @if(config('adminlte.layout') == 'top-nav')
+                    <div class="container">
+                    @endif
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            @if(config('adminlte.layout') == 'top-nav')
-            <div class="container">
-            @endif
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        @yield('content_header')
+                    </section>
 
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                @yield('content_header')
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-
-                @yield('content')
-
-            </section>
-            <!-- /.content -->
-            @if(config('adminlte.layout') == 'top-nav')
+                    <!-- Main content -->
+                    <section class="content">
+                        @yield('content')                
+                    </section>
+                    <!-- /.content -->
+                    @if(config('adminlte.layout') == 'top-nav')
+                    </div>
+                    <!-- /.container -->
+                    @endif
+                </div>
+                <!-- /.content-wrapper -->
             </div>
-            <!-- /.container -->
-            @endif
         </div>
-        <!-- /.content-wrapper -->
 
         @hasSection('footer')
         <footer class="main-footer">

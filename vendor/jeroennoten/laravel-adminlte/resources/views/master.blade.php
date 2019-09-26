@@ -27,11 +27,11 @@
 </head>
 <body class="hold-transition @yield('body_class')">
     @yield('body')
+    <script>var site_url = "{{ url('/') }}/";var csrf_token = "{{ csrf_token() }}";</script>
     <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
     <script src="//adminlte.io/themes/AdminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    @include('adminlte::plugins', ['type' => 'js'])
-    @yield('adminlte_js')
+    @include('adminlte::plugins', ['type' => 'js'])    
 </body>
 </html>

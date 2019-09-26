@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'AdminLTE')
+@section('title', 'User Profile')
 @section('content_header')
 <h1>User Profile</h1>
 @stop
