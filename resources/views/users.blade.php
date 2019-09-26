@@ -8,11 +8,14 @@
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Hover Data Table</h3>
+				<h3 class="box-title">Users Listing Data Table</h3>
+				<div class="box-tools">
+					<a href="" class="btn btn-primary" title="Add new user" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"	></i></a>
+				</div>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body">
-				<table id="users-tbl" class="table table-bordered table-hover dt-responsive" style="width:100%">
+				<table id="users-tbl" class="table table-bordered table-hover dt-responsive data-table" style="width:100%">
 					<thead>
 						<tr>
 							<th>Sr No.</th>

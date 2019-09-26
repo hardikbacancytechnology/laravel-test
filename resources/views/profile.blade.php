@@ -9,9 +9,9 @@
 			<!-- Profile Image -->
 			<div class="box box-primary">
 				<div class="box-body box-profile">
-					<img class="profile-user-img img-responsive img-circle" src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User profile picture">
-					<h3 class="profile-username text-center">Nina Mcintire</h3>
-					<p class="text-muted text-center">Software Engineer</p>
+					<img class="profile-user-img img-responsive img-circle" src="{{ asset('dist/img/user1-128x128.jpg') }}" alt="User profile picture">
+					<h3 class="profile-username text-center">Hardik Chauhan</h3>
+					<p class="text-muted text-center">Sr. Software Engineer</p>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">
 							<b>Followers</b> <a class="pull-right">1,322</a>
@@ -37,23 +37,26 @@
 				<div class="box-body">
 					<strong><i class="fa fa-book margin-r-5"></i> Education</strong>
 					<p class="text-muted">
-						B.S. in Computer Science from the University of Tennessee at Knoxville
+						B.E. in Computer Engineering from the Shankersinh Vaghela Bapu Institute of Technology at Gandhinagar
 					</p>
 					<hr>
 					<strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-					<p class="text-muted">Malibu, California</p>
+					<p class="text-muted">Kankariya, Ahmedabad - 380022</p>
 					<hr>
 					<strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
 					<p>
 						<span class="label label-danger">UI Design</span>
 						<span class="label label-success">Coding</span>
 						<span class="label label-info">Javascript</span>
-						<span class="label label-warning">PHP</span>
-						<span class="label label-primary">Node.js</span>
+						<span class="label label-warning">jQuery</span>
+						<span class="label label-danger">Core PHP</span>
+						<span class="label label-success">Laravel 5.8</span>
+						<span class="label label-info">CakePHP 1.3</span>
+						<span class="label label-warning">Yii2</span>
+						<span class="label label-danger">CodeIgniter</span>
+						<span class="label label-success">Wordpress</span>
+						<span class="label label-info">Vue.js</span>
 					</p>
-					<hr>
-					<strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
 				</div>
 				<!-- /.box-body -->
 			</div>

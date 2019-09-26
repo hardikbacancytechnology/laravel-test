@@ -67,7 +67,7 @@ class User extends Authenticatable{
                         $primary_key = $columns[0];
                         $sOutput .= '"'.$this->checkEmail($user->$col).'",';
                     }
-                    $sOutput .= '"<a href=\"'.url('admin/users/'.$user->$primary_key).'\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-edit\"></i></a>'.(($user->$primary_key!=\Auth::user()->id) ? ' | <a href=\"javascript:;\" class=\"btn btn-danger btn-sm confirm-delete\" data-module=\"users\"><i class=\"fa fa-trash\"></i></a>' : '').'"';
+                    $sOutput .= '"<a href=\"'.url('admin/users/'.$user->$primary_key).'\" class=\"btn btn-primary btn-sm\" title=\"Edit user\" data-toggle=\"tooltip\"><i class=\"fa fa-edit\"></i></a>'.(($user->$primary_key!=\Auth::user()->id) ? ' | <a href=\"javascript:;\" class=\"btn btn-danger btn-sm confirm-delete\" data-module=\"users\" data-id=\"'.$user->$primary_key.'\" title=\"Delete user\" data-toggle=\"tooltip\"><i class=\"fa fa-trash\"></i></a>' : '').'"';
                     $sOutput .= '],';
                 }
                 $sOutput = rtrim($sOutput,',');

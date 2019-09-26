@@ -37,4 +37,20 @@ class UserController extends Controller{
         }
         return Response::json($response);
     }
+    public function destroy(User $user){
+        if(!$user){
+            $response = ['status'=>101,'message'=>'The user you are tryinng to delete does not exists!!!'];
+        }else{
+            if($user->id==Auth::user()->id){
+                $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
+            }else{
+                if($user->delete()):
+                    $response = ['status'=>100,'message'=>'The user deleted successfully!!!'];
+                else:
+                    $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
+                endif;
+            }
+        }
+        return Response::json($response);
+    }
 }

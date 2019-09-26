@@ -39,6 +39,7 @@ $(document).on('click','.ajax_anchor',function(e){
 });
 $(document).on('click','.confirm-delete',function(){
     var $module = $(this).data('module');
+    var $id = $(this).data('id');
     swal({
         title: "Are you sure you want to delete this record?",
         text: "Once deleted, you will not be able to recover this record!",
@@ -46,10 +47,30 @@ $(document).on('click','.confirm-delete',function(){
         buttons: true,
         dangerMode: true,
     }).then((willDelete) => {
-        if(willDelete) {
-            swal("Poof! Your record has been deleted!",{
-                icon: "success",
+        if(willDelete){
+            $.ajax({
+                url:site_url+'admin/'+$module+'/'+$id,
+                method:'DELETE',
+                dataType:'json',
+                data:{_token:csrf_token},
+                success:function(response){
+                    if(response.status==100){
+                        swal("Poof! "+response.message+"!",{
+                            icon: "success",
+                        });
+                        $('#'+$module+'-tbl').DataTable().ajax.reload();
+                        $('*[data-toggle="tooltip"]').tooltip();
+                    }else{
+                        swal(response.message,{
+                            icon: "error",
+                        });
+                    }
+                },
+                error:function(jqXHR,exception){
+                    showAjaxErrors(jqXHR,exception);
+                }
             });
+            
         }else{
             swal("Your record is safe!");
         }
@@ -59,93 +80,6 @@ $(document).on('click','.submit-form',function(e){
     var $form = $(this).data('module')+'-form';
     validateForm($form);
 });
-function fetchRulesAndMessages($form){
-    var rules = [];
-    var messages = [];
-    if($form=='change-password-form'){
-        rules = {
-            'old_pwd':{
-                required:true
-            },
-            'new_pwd':{
-                required:true
-            },
-            'confirm_pwd':{
-                required:true
-            }
-        };
-        messages = {
-            'old_pwd':{
-                required:"Please enter old password"
-            },
-            'new_pwd':{
-                required:"Please enter new password"
-            },
-            'confirm_pwd':{
-                required:"Please confirm password"
-            }
-        };
-    }
-    return {'rules':rules,'messages':messages};
-}
-function validateForm($form){
-    var response = fetchRulesAndMessages($form);
-    $('#'+$form).validate({
-        rules:response.rules,
-        messages:response.messages,
-        submitHandler:function(form){
-            ajaxSubmitForm($form);
-            return false;
-        }
-    });
-}
-function ajaxSubmitForm(form){
-    $.ajax({
-        url:$('#'+form).attr('action'),
-        method:'POST',
-        dataType:'json',
-        data:$('#'+form).serialize(),
-        success:function(response){
-            if(response.status==100){
-                toastr.success(response.message);
-                $('#'+form).trigger("reset");
-            }else{
-                if(typeof response.errors !== 'undefined'){
-                    $.each(response.errors, function(key,value){
-                        $('<label class="error">'+value+'</label>').insertAfter('#'+key);
-                    });
-                }else{
-                    toastr.error(response.message);
-                }
-            }
-        },
-        error:function(jqXHR,exception){
-            showAjaxErrors(jqXHR,exception);
-        }
-    });
-}
-function showAjaxErrors(jqXHR,exception){
-    var msg = '';
-    if (jqXHR.status === 0) {
-        msg = 'Not connect.\n Verify Network.';
-    } else if (jqXHR.status == 404) {
-        msg = 'Requested page not found. [404]';
-    } else if (jqXHR.status == 500) {
-        msg = 'Internal Server Error [500].';
-    } else if (exception === 'parsererror') {
-        msg = 'Requested JSON parse failed.';
-    } else if (exception === 'timeout') {
-        msg = 'Time out error.';
-    } else if (exception === 'abort') {
-        msg = 'Ajax request aborted.';
-    } else {
-        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        var response = JSON.parse(jqXHR.responseText);
-        $.each(response.errors, function(key,value){
-            $('<label class="error">'+value+'</label>').insertAfter('#'+key);
-        });
-    }
-}
 function loadScripts(){
     "use strict";
     /* ChartJS
@@ -625,23 +559,36 @@ function loadScripts(){
             }
         });
     }
-    if($('#users-tbl').length){
-        var user_tbl = $('#users-tbl').DataTable({
-            "processing": true,
-            "serverSide": true,
+    if($('.data-table').length){
+        var $datatableId = $('.data-table').attr('id');
+        var $order = [[0, 'desc']];
+        var $processing = false;
+        var $serverSide = false;
+        var $lengthMenu = [10,25,50,100];
+        var $pageLength = 10;
+        var $columnDefs = [];
+        if($datatableId=='users-tbl'){
+            $processing = false;
+            $serverSide = true;
+            $order = [[1, 'desc']];
+            $columnDefs = [{
+                "targets": [0,-1],
+                "searchable": false,
+                "orderable": false,
+            }];
+        }
+        $('#'+$datatableId).DataTable({
+            "processing": $processing,
+            "serverSide": $serverSide,
             "ajax":{
                 "url":site_url+'admin/users/listings',
                 "type":"POST",
                 "data":{_token:csrf_token}
             },
-            "lengthMenu": [10,25,50,100],
-            "pageLength": 10,
-            "order": [[1, 'desc']],
-            "columnDefs": [{
-                "targets": [0,-1],
-                "searchable": false,
-                "orderable": false,
-            }],
+            "lengthMenu": $lengthMenu,
+            "pageLength": $pageLength,
+            "order": $order,
+            "columnDefs": $columnDefs,
             "pagingType": "full_numbers",
             "oLanguage": {
                 "oPaginate": {
@@ -650,11 +597,107 @@ function loadScripts(){
                     "sNext": '<i class="fa fa-forward"></i>',
                     "sLast": '<i class="fa fa-step-forward"></i>'
                 }
+            },
+            fnDrawCallback:function(oSettings){
+                if($('*[data-toggle="tooltip"]').length){
+                    $('*[data-toggle="tooltip"]').tooltip();
+                }
             }
         });
     }
     if($('select').length){
         $('select').select2();
     }
+    if($('*[data-toggle="tooltip"]').length){
+        $('*[data-toggle="tooltip"]').tooltip();
+    }
+}
+function fetchRulesAndMessages($form){
+    var rules = [];
+    var messages = [];
+    if($form=='change-password-form'){
+        rules = {
+            'old_pwd':{
+                required:true
+            },
+            'new_pwd':{
+                required:true
+            },
+            'confirm_pwd':{
+                required:true
+            }
+        };
+        messages = {
+            'old_pwd':{
+                required:"Please enter old password"
+            },
+            'new_pwd':{
+                required:"Please enter new password"
+            },
+            'confirm_pwd':{
+                required:"Please confirm password"
+            }
+        };
+    }
+    return {'rules':rules,'messages':messages};
+}
+function validateForm($form){
+    var response = fetchRulesAndMessages($form);
+    $('#'+$form).validate({
+        rules:response.rules,
+        messages:response.messages,
+        submitHandler:function(form){
+            ajaxSubmitForm($form);
+            return false;
+        }
+    });
+}
+function ajaxSubmitForm(form){
+    $.ajax({
+        url:$('#'+form).attr('action'),
+        method:'POST',
+        dataType:'json',
+        data:$('#'+form).serialize(),
+        success:function(response){
+            if(response.status==100){
+                toastr.success(response.message);
+                $('#'+form).trigger("reset");
+            }else{
+                if(typeof response.errors !== 'undefined'){
+                    $.each(response.errors, function(key,value){
+                        $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+                    });
+                }else{
+                    toastr.error(response.message);
+                }
+            }
+        },
+        error:function(jqXHR,exception){
+            showAjaxErrors(jqXHR,exception);
+        }
+    });
+}
+function showAjaxErrors(jqXHR,exception){
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'Not connect.\n Verify Network.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found. [404]';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error [500].';
+    } else if (exception === 'parsererror') {
+        msg = 'Requested JSON parse failed.';
+    } else if (exception === 'timeout') {
+        msg = 'Time out error.';
+    } else if (exception === 'abort') {
+        msg = 'Ajax request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        var response = JSON.parse(jqXHR.responseText);
+        $.each(response.errors, function(key,value){
+            $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+        });
+    }
+    toastr.error(msg);
 }
 loadScripts();
