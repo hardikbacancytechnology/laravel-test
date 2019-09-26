@@ -58,8 +58,8 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
   Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/home1', 'HomeController@index1')->name('home1');
   Route::get('/profile', 'UserController@profile')->name('profile');
-  Route::resource('users', 'UserController');
-  Route::post('/users/listings', 'UserController@listings');
   Route::get('/users/change-password', 'UserController@changePassword');
   Route::post('/users/change-password', 'UserController@storeNewPassword');
+  Route::post('/users/listings', 'UserController@listings');
+  Route::resource('users', 'UserController');
 });
