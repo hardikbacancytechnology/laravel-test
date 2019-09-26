@@ -621,7 +621,8 @@ function fetchRulesAndMessages($form){
                 required:true
             },
             'new_pwd':{
-                required:true
+                required:true,
+                equalTo:'#confirm_pwd'
             },
             'confirm_pwd':{
                 required:true
@@ -632,7 +633,8 @@ function fetchRulesAndMessages($form){
                 required:"Please enter old password"
             },
             'new_pwd':{
-                required:"Please enter new password"
+                required:"Please enter new password",
+                equalTo:"Password do not match",
             },
             'confirm_pwd':{
                 required:"Please confirm password"
@@ -692,8 +694,8 @@ function showAjaxErrors(jqXHR,exception){
     } else if (exception === 'abort') {
         msg = 'Ajax request aborted.';
     } else {
-        msg = 'Uncaught Error.\n' + jqXHR.responseText;
         var response = JSON.parse(jqXHR.responseText);
+        msg = 'Uncaught Error.\n' + response.message;
         $.each(response.errors, function(key,value){
             $('<label class="error">'+value+'</label>').insertAfter('#'+key);
         });
