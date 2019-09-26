@@ -82,6 +82,10 @@ $(document).on('click','.submit-form',function(e){
 });
 function loadScripts(){
     "use strict";
+    toastr.options = {
+        "showMethod":"slideDown",
+        "hideMethod":"slideUp",
+    };
     /* ChartJS
     * -------
     * Here we will create a few charts using ChartJS
@@ -655,6 +659,7 @@ function validateForm($form){
     });
 }
 function ajaxSubmitForm(form){
+    toastr.remove();
     $.ajax({
         url:$('#'+form).attr('action'),
         method:'POST',
@@ -680,6 +685,7 @@ function ajaxSubmitForm(form){
     });
 }
 function showAjaxErrors(jqXHR,exception){
+    toastr.remove();
     var msg = '';
     if (jqXHR.status === 0) {
         msg = 'Not connect.\n Verify Network.';
