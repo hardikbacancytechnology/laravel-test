@@ -60,4 +60,6 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
   Route::get('/profile', 'UserController@profile')->name('profile');
   Route::get('/users', 'UserController@index')->name('list_users');
   Route::post('/users/listings', 'UserController@listings');
+  Route::get('/users/change-password', 'UserController@changePassword');
+  Route::post('/users/change-password', 'UserController@storeNewPassword');
 });

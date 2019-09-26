@@ -17,7 +17,7 @@ return [
 
     'title_prefix' => '',
 
-    'title_postfix' => '',
+    'title_postfix' => ' | Bacancy Technology',
 
     /*
     |--------------------------------------------------------------------------
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Bacancy</b>Technology',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>B</b>Tec',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +168,7 @@ return [
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'url'  => 'admin/users/change-password',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
@@ -482,6 +482,38 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => env('APP_URL').'/public/vendor/adminlte/dist/js/adminlte.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Validate Plugin Js',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => env('APP_URL').'/public/js/jquery.validate.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => env('APP_URL').'/public/js/additional-methods.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Toastr Js',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => env('APP_URL').'/public/css/toastr.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => env('APP_URL').'/public/js/toastr.min.js',
                 ],
             ],
         ],

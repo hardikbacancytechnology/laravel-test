@@ -1,3 +1,151 @@
+$(document).on('click','.ajax_anchor',function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var $href = $this.attr('href');
+    if($href!='#'){
+        $("#content").load($this.attr('href')+' .ajax_contents',function(responseTxt,statusTxt,xhr){
+            if(statusTxt == "success"){
+                loadScripts();
+                $('title').text($('.content-header h1').text());
+                $('.sidebar-menu li').each(function(){
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                    }
+                    if($(this).hasClass('menu-open')){
+                        $(this).removeClass('menu-open');
+                    }
+                    if($(this).find('ul.treeview-menu').length){
+                        $(this).find('ul.treeview-menu li').each(function(){
+                            if($(this).hasClass('active')){
+                                $(this).removeClass('active');
+                            }
+                        });
+                        $(this).find('ul.treeview-menu').hide();
+                    }
+                });
+                if(!$this.parent('li').parents('.treeview').hasClass('menu-open')){
+                    $this.parent('li').parents('.treeview').addClass('menu-open active');
+                    $this.parent('li').parents('.treeview-menu').show();
+                }
+                if(!$this.parent('li').hasClass('active')){
+                    $this.parent('li').addClass('active');
+                }
+                window.history.pushState(null,null,$href);
+            }else if(statusTxt == "error"){
+                toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
+            }
+        });
+    }
+});
+$(document).on('click','.confirm-delete',function(){
+    var $module = $(this).data('module');
+    swal({
+        title: "Are you sure you want to delete this record?",
+        text: "Once deleted, you will not be able to recover this record!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if(willDelete) {
+            swal("Poof! Your record has been deleted!",{
+                icon: "success",
+            });
+        }else{
+            swal("Your record is safe!");
+        }
+    });
+});
+$(document).on('click','.submit-form',function(e){
+    var $form = $(this).data('module')+'-form';
+    validateForm($form);
+});
+function fetchRulesAndMessages($form){
+    var rules = [];
+    var messages = [];
+    if($form=='change-password-form'){
+        rules = {
+            'old_pwd':{
+                required:true
+            },
+            'new_pwd':{
+                required:true
+            },
+            'confirm_pwd':{
+                required:true
+            }
+        };
+        messages = {
+            'old_pwd':{
+                required:"Please enter old password"
+            },
+            'new_pwd':{
+                required:"Please enter new password"
+            },
+            'confirm_pwd':{
+                required:"Please confirm password"
+            }
+        };
+    }
+    return {'rules':rules,'messages':messages};
+}
+function validateForm($form){
+    var response = fetchRulesAndMessages($form);
+    $('#'+$form).validate({
+        rules:response.rules,
+        messages:response.messages,
+        submitHandler:function(form){
+            ajaxSubmitForm($form);
+            return false;
+        }
+    });
+}
+function ajaxSubmitForm(form){
+    $.ajax({
+        url:$('#'+form).attr('action'),
+        method:'POST',
+        dataType:'json',
+        data:$('#'+form).serialize(),
+        success:function(response){
+            if(response.status==100){
+                toastr.success(response.message);
+                $('#'+form).trigger("reset");
+            }else{
+                if(typeof response.errors !== 'undefined'){
+                    $.each(response.errors, function(key,value){
+                        $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+                    });
+                }else{
+                    toastr.error(response.message);
+                }
+            }
+        },
+        error:function(jqXHR,exception){
+            showAjaxErrors(jqXHR,exception);
+        }
+    });
+}
+function showAjaxErrors(jqXHR,exception){
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'Not connect.\n Verify Network.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found. [404]';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error [500].';
+    } else if (exception === 'parsererror') {
+        msg = 'Requested JSON parse failed.';
+    } else if (exception === 'timeout') {
+        msg = 'Time out error.';
+    } else if (exception === 'abort') {
+        msg = 'Ajax request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        var response = JSON.parse(jqXHR.responseText);
+        $.each(response.errors, function(key,value){
+            $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+        });
+    }
+}
 function loadScripts(){
     "use strict";
     /* ChartJS
@@ -307,7 +455,7 @@ function loadScripts(){
             startDate: moment().subtract(29, 'days'),
             endDate  : moment()
         }, function (start, end) {
-            window.alert('You chose: ' + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            toastr.success('You chose: ' + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         });
     }
     if($('.knob').length){
@@ -510,60 +658,3 @@ function loadScripts(){
     }
 }
 loadScripts();
-$(document).on('click','.ajax_anchor',function(e){
-    e.preventDefault();
-    var $this = $(this);
-    var $href = $this.attr('href');
-    if($href!='#'){
-        $("#content").load($this.attr('href')+' .ajax_contents',function(responseTxt,statusTxt,xhr){
-            if(statusTxt == "success"){
-                loadScripts();
-                $('title').text($('.content-header h1').text());
-                $('.sidebar-menu li').each(function(){
-                    if($(this).hasClass('active')){
-                        $(this).removeClass('active');
-                    }
-                    if($(this).hasClass('menu-open')){
-                        $(this).removeClass('menu-open');
-                    }
-                    if($(this).find('ul.treeview-menu').length){
-                        $(this).find('ul.treeview-menu li').each(function(){
-                            if($(this).hasClass('active')){
-                                $(this).removeClass('active');
-                            }
-                        });
-                        $(this).find('ul.treeview-menu').hide();
-                    }
-                });
-                if(!$this.parent('li').parents('.treeview').hasClass('menu-open')){
-                    $this.parent('li').parents('.treeview').addClass('menu-open active');
-                    $this.parent('li').parents('.treeview-menu').show();
-                }
-                if(!$this.parent('li').hasClass('active')){
-                    $this.parent('li').addClass('active');
-                }
-                window.history.pushState(null,null,$href);
-            }else if(statusTxt == "error"){
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-        });
-    }
-});
-$(document).on('click','.confirm-delete',function(){
-    var $module = $(this).data('module');
-    swal({
-        title: "Are you sure you want to delete this record?",
-        text: "Once deleted, you will not be able to recover this record!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((willDelete) => {
-        if(willDelete) {
-            swal("Poof! Your record has been deleted!",{
-                icon: "success",
-            });
-        }else{
-            swal("Your record is safe!");
-        }
-    });
-});
