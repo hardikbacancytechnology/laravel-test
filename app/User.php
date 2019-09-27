@@ -2,6 +2,7 @@
 namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Hash;
 class User extends Authenticatable{
     use Notifiable;
     /**
@@ -75,6 +76,14 @@ class User extends Authenticatable{
             }';
             die($sOutput);
         }
+    }
+    public function saveData($request,$user){
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if(isset($request->password)):
+            $user->password = Hash::make($request->password);
+        endif;
+        return $user->save();
     }
     private function checkEmail($email){
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){

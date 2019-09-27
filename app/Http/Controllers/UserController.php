@@ -38,11 +38,8 @@ class UserController extends Controller{
     }
     public function store(UserRequest $request){
         $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        if($user->save()):
-            $response = ['status'=>100,'message'=>'User created successfully','url'=>route('users.index')];
+        if($user->saveData($request,$user)):
+            $response = ['status'=>100,'message'=>'User created successfully','url'=>route('users.index'),'counter'=>User::count()];
         else:
             $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
         endif;
@@ -58,9 +55,7 @@ class UserController extends Controller{
         return view('admin.users.create',compact(['user','breadcrumb']));
     }
     public function update(UserRequest $request,User $user){
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if($user->save()):
+        if($user->saveData($request,$user)):
             $response = ['status'=>100,'message'=>'User updated successfully','url'=>route('users.index')];
         else:
             $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
@@ -102,7 +97,7 @@ class UserController extends Controller{
                     $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
                 }else{
                     if($user->delete()):
-                        $response = ['status'=>100,'message'=>'The user deleted successfully!!!'];
+                        $response = ['status'=>100,'message'=>'The user deleted successfully!!!','counter'=>User::count()];
                     else:
                         $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
                     endif;
