@@ -9,7 +9,11 @@ use Response;
 use App\User;
 class UserController extends Controller{
     public function profile(){
-    	return view('admin.users.profile');
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'User Profile';
+        $breadcrumb[1]['url'] = '';
+    	return view('admin.users.profile',compact(['breadcrumb']));
     }
     public function index(){
         $breadcrumb[0]['name'] = 'Dashboard';
@@ -44,7 +48,13 @@ class UserController extends Controller{
         return Response::json($response);
     }
     public function edit(User $user){
-        return view('admin.users.create',compact(['user']));
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'Users Listing';
+        $breadcrumb[1]['url'] = route('users.index');
+        $breadcrumb[2]['name'] = 'Edit user';
+        $breadcrumb[2]['url'] = '';
+        return view('admin.users.create',compact(['user','breadcrumb']));
     }
     public function update(UserRequest $request,User $user){
         $user->name = $request->name;
@@ -57,7 +67,11 @@ class UserController extends Controller{
         return Response::json($response);
     }
     public function changePassword(){
-        return view('admin.users.changepwd');
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'Change Password';
+        $breadcrumb[1]['url'] = '';
+        return view('admin.users.changepwd',compact(['breadcrumb']));
     }
     public function storeNewPassword(UserPasswordRequest $request){
         $old_pwd = $request->old_pwd;

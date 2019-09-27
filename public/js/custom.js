@@ -273,7 +273,7 @@ function loadScripts(){
     // -----------------
     // - SPARKLINE BAR -
     // -----------------
-    if($('.sparkbar').length){
+    if($('.sparkbar').length && $('.sparkpie').length && $('.sparkline').length){
         $('.sparkbar').each(function () {
             var $this = $(this);
             $this.sparkline('html', {
@@ -282,11 +282,9 @@ function loadScripts(){
                 barColor: $this.data('color')
             });
         });
-    }
-    // -----------------
-    // - SPARKLINE PIE -
-    // -----------------
-    if($('.sparkpie').length){
+        // -----------------
+        // - SPARKLINE PIE -
+        // -----------------
         $('.sparkpie').each(function () {
             var $this = $(this);
             $this.sparkline('html', {
@@ -295,11 +293,9 @@ function loadScripts(){
                 sliceColors: $this.data('color')
             });
         });
-    }
-    // ------------------
-    // - SPARKLINE LINE -
-    // ------------------
-    if($('.sparkline').length){
+        // ------------------
+        // - SPARKLINE LINE -
+        // ------------------
         $('.sparkline').each(function () {
             var $this = $(this);
             $this.sparkline('html', {
