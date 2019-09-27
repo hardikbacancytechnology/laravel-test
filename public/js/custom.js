@@ -1,85 +1,42 @@
-$(document).on('click','.ajax_anchor',function(e){
-    e.preventDefault();
-    var $this = $(this);
-    var $href = $this.attr('href');
-    if($href!='#'){
-        $("#content").load($this.attr('href')+' .ajax_contents',function(responseTxt,statusTxt,xhr){
-            if(statusTxt == "success"){
-                loadScripts();
-                $('title').text($('.content-header h1').text());
-                $('.sidebar-menu li').each(function(){
-                    if($(this).hasClass('active')){
-                        $(this).removeClass('active');
-                    }
-                    if($(this).hasClass('menu-open')){
-                        $(this).removeClass('menu-open');
-                    }
-                    if($(this).find('ul.treeview-menu').length){
-                        $(this).find('ul.treeview-menu li').each(function(){
-                            if($(this).hasClass('active')){
-                                $(this).removeClass('active');
-                            }
-                        });
-                        $(this).find('ul.treeview-menu').hide();
-                    }
-                });
-                if(!$this.parent('li').parents('.treeview').hasClass('menu-open')){
-                    $this.parent('li').parents('.treeview').addClass('menu-open active');
-                    $this.parent('li').parents('.treeview-menu').show();
+function loadContent($href,$this=''){
+    $("#content").load($href+' .ajax_contents',function(responseTxt,statusTxt,xhr){
+        if(statusTxt == "success"){
+            loadScripts();
+            $('title').text($('.content-header h1').text());
+            $('.sidebar-menu li').each(function(){
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
                 }
-                if(!$this.parent('li').hasClass('active')){
-                    $this.parent('li').addClass('active');
+                if($(this).hasClass('menu-open')){
+                    $(this).removeClass('menu-open');
                 }
-                window.history.pushState(null,null,$href);
-            }else if(statusTxt == "error"){
-                toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-        });
-    }
-});
-$(document).on('click','.confirm-delete',function(){
-    var $module = $(this).data('module');
-    var $id = $(this).data('id');
-    swal({
-        title: "Are you sure you want to delete this record?",
-        text: "Once deleted, you will not be able to recover this record!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((willDelete) => {
-        if(willDelete){
-            $.ajax({
-                url:site_url+'admin/'+$module+'/'+$id,
-                method:'DELETE',
-                dataType:'json',
-                data:{_token:csrf_token},
-                success:function(response){
-                    if(response.status==100){
-                        swal("Poof! "+response.message+"!",{
-                            icon: "success",
-                        });
-                        $('#'+$module+'-tbl').DataTable().ajax.reload();
-                        $('*[data-toggle="tooltip"]').tooltip();
-                    }else{
-                        swal(response.message,{
-                            icon: "error",
-                        });
-                    }
-                },
-                error:function(jqXHR,exception){
-                    showAjaxErrors(jqXHR,exception);
+                if($(this).find('ul.treeview-menu').length){
+                    $(this).find('ul.treeview-menu li').each(function(){
+                        if($(this).hasClass('active')){
+                            $(this).removeClass('active');
+                        }
+                    });
+                    $(this).find('ul.treeview-menu').hide();
                 }
             });
-            
-        }else{
-            swal("Your record is safe!");
+            if(!$this){
+                $this = $('.sidebar-menu li').find('a[href="'+$href+'"]');
+            }else if($this.parents('.sidebar-menu').length==0){
+                $this = $('.sidebar-menu li').find('a[href="'+$href+'"]');
+            }
+            if(!$this.parent('li').parents('.treeview').hasClass('menu-open')){
+                $this.parent('li').parents('.treeview').addClass('menu-open active');
+                $this.parent('li').parents('.treeview-menu').show();
+            }
+            if(!$this.parent('li').hasClass('active')){
+                $this.parent('li').addClass('active');
+            }
+            window.history.pushState(null,null,$href);
+        }else if(statusTxt == "error"){
+            toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-});
-$(document).on('click','.submit-form',function(e){
-    var $form = $(this).data('module')+'-form';
-    validateForm($form);
-});
+}
 function loadScripts(){
     "use strict";
     toastr.options = {
@@ -368,7 +325,7 @@ function loadScripts(){
         $('.connectedSortable .box-header, .connectedSortable .nav-tabs-custom').css('cursor', 'move');
     }
     if($('.todo-list').length){
-    // jQuery UI sortable for the todo list
+        // jQuery UI sortable for the todo list
         $('.todo-list').sortable({
             placeholder         : 'sort-highlight',
             handle              : '.handle',
@@ -378,7 +335,7 @@ function loadScripts(){
     }
     if($('.textarea').length){
         // bootstrap WYSIHTML5 - text editor
-       // $('.textarea').wysihtml5();
+        // $('.textarea').wysihtml5();
     }
     if($('.daterange').length){
         $('.daterange').daterangepicker({
@@ -616,7 +573,7 @@ function loadScripts(){
         $('*[data-toggle="tooltip"]').tooltip();
     }
 }
-function fetchRulesAndMessages($form){
+function fetchValidateRulesAndMessages($form){
     var rules = [];
     var messages = [];
     if($form=='change-password-form'){
@@ -644,11 +601,36 @@ function fetchRulesAndMessages($form){
                 required:"Please confirm password"
             }
         };
+    }else if($form=='create-user-form'){
+        rules = {
+            'name':{
+                required:true
+            },
+            'email':{
+                required:true,
+                email:true
+            },
+            'password':{
+                required:true
+            }
+        };
+        messages = {
+            'name':{
+                required:"Please enter name"
+            },
+            'email':{
+                required:"Please enter email",
+                email:"Please enter valid email",
+            },
+            'password':{
+                required:"Please enter password"
+            }
+        };
     }
     return {'rules':rules,'messages':messages};
 }
 function validateForm($form){
-    var response = fetchRulesAndMessages($form);
+    var response = fetchValidateRulesAndMessages($form);
     $('#'+$form).validate({
         rules:response.rules,
         messages:response.messages,
@@ -668,26 +650,13 @@ function ajaxSubmitForm(form){
         success:function(response){
             if(response.status==100){
                 toastr.success(response.message);
-                if(typeof response.url !== 'undefined'){
-                    $("#content").load(response.url+' .ajax_contents',function(responseTxt,statusTxt,xhr){
-                        if(statusTxt == "success"){
-                            loadScripts();
-                            $('title').text($('.content-header h1').text());
-                            window.history.pushState(null,null,$href);
-                        }else if(statusTxt == "error"){
-                            toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
-                        }
-                    });
-                }
-                $('#'+form).trigger("reset");
+                if(typeof response.url !== 'undefined'){loadContent(response.url);}else{$('#'+form).trigger("reset");}
             }else{
                 if(typeof response.errors !== 'undefined'){
                     $.each(response.errors, function(key,value){
                         $('<label class="error">'+value+'</label>').insertAfter('#'+key);
                     });
-                }else{
-                    toastr.error(response.message);
-                }
+                }else{toastr.error(response.message);}
             }
         },
         error:function(jqXHR,exception){
@@ -698,25 +667,76 @@ function ajaxSubmitForm(form){
 function showAjaxErrors(jqXHR,exception){
     toastr.remove();
     var msg = '';
-    if (jqXHR.status === 0) {
+    if(jqXHR.status === 0){
         msg = 'Not connect.\n Verify Network.';
-    } else if (jqXHR.status == 404) {
+    }else if(jqXHR.status == 404){
         msg = 'Requested page not found. [404]';
-    } else if (jqXHR.status == 500) {
+    }else if(jqXHR.status == 500){
         msg = 'Internal Server Error [500].';
-    } else if (exception === 'parsererror') {
+    }else if(exception === 'parsererror'){
         msg = 'Requested JSON parse failed.';
-    } else if (exception === 'timeout') {
+    }else if(exception === 'timeout'){
         msg = 'Time out error.';
-    } else if (exception === 'abort') {
+    }else if(exception === 'abort'){
         msg = 'Ajax request aborted.';
-    } else {
+    }else{
         var response = JSON.parse(jqXHR.responseText);
         msg = 'Uncaught Error.\n' + response.message;
         $.each(response.errors, function(key,value){
-            $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+            if($('#'+key).next('.error').length==0){
+                $('<label class="error">'+value+'</label>').insertAfter('#'+key);
+            }else{
+                $('#'+key).next('.error').css({'display':'block'}).html(value);
+            }
         });
     }
     toastr.error(msg);
 }
 loadScripts();
+$(document).on('click','.ajax_anchor',function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var $href = $this.attr('href');
+    if($href!='#'){
+        loadContent($href,$this);
+    }
+});
+$(document).on('click','.confirm-delete',function(){
+    var $module = $(this).data('module');
+    var $id = $(this).data('id');
+    swal({
+        title: "Are you sure you want to delete this record?",
+        text: "Once deleted, you will not be able to recover this record!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if(willDelete){
+            $.ajax({
+                url:site_url+'admin/'+$module+'/'+$id,
+                method:'DELETE',
+                dataType:'json',
+                data:{_token:csrf_token},
+                success:function(response){
+                    if(response.status==100){
+                        swal("Poof! "+response.message+"!",{icon: "success"});
+                        if($('#'+$module+'-tbl').length){$('#'+$module+'-tbl').DataTable().ajax.reload();}
+                        if($('*[data-toggle="tooltip"]').length){$('*[data-toggle="tooltip"]').tooltip();}
+                    }else{
+                        swal(response.message,{icon: "error"});
+                    }
+                },
+                error:function(jqXHR,exception){
+                    showAjaxErrors(jqXHR,exception);
+                }
+            });
+            
+        }else{
+            swal("Your record is safe!",{icon: "info"});
+        }
+    });
+});
+$(document).on('click','.submit-form',function(e){
+    var $form = $(this).data('module')+'-form';
+    validateForm($form);
+});

@@ -12,14 +12,24 @@ class UserController extends Controller{
     	return view('admin.users.profile');
     }
     public function index(){
-    	return view('admin.users.index');
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'Users Listing';
+        $breadcrumb[1]['url'] = '';
+    	return view('admin.users.index',compact(['breadcrumb']));
     }
     public function listings(Request $request){
         $user = new User;
         $user->listings($request);
     }
     public function create(){
-        return view('admin.users.create');
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'Users Listing';
+        $breadcrumb[1]['url'] = route('users.index');
+        $breadcrumb[2]['name'] = 'Add new user';
+        $breadcrumb[2]['url'] = '';
+        return view('admin.users.create',compact(['breadcrumb']));
     }
     public function store(UserRequest $request){
         $user = new User;
@@ -70,14 +80,18 @@ class UserController extends Controller{
         if(!$user){
             $response = ['status'=>101,'message'=>'The user you are tryinng to delete does not exists!!!'];
         }else{
-            if($user->id==Auth::user()->id){
-                $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
+            if($user->id=='1' and Auth::user()->id!='1'){
+                $response = ['status'=>104,'message'=>'You don\'t have permission to delete this record!!!'];
             }else{
-                if($user->delete()):
-                    $response = ['status'=>100,'message'=>'The user deleted successfully!!!'];
-                else:
-                    $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
-                endif;
+                if($user->id==Auth::user()->id){
+                    $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
+                }else{
+                    if($user->delete()):
+                        $response = ['status'=>100,'message'=>'The user deleted successfully!!!'];
+                    else:
+                        $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
+                    endif;
+                }
             }
         }
         return Response::json($response);

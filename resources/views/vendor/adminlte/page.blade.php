@@ -1,7 +1,6 @@
 @extends('adminlte::master')
 @section('adminlte_css')
-    <link rel="stylesheet"
-          href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     @stack('css')
     @yield('css')
 @stop
@@ -111,8 +110,8 @@
                         @if(isset($breadcrumb))
                         <ol class="breadcrumb">
                             @foreach($breadcrumb as $i => $b)
-                            <li @if($i==count($breadcrumb)-1) class="active" @endif><a href="@if($i!=count($breadcrumb)-1){{ $b['url'] }}@endif">@if($i==0)<i class="fa fa-dashboard"></i>@endif {{ $b['name'] }}</a></li>
-                            @endif
+                            <li {{ (($i==count($breadcrumb)-1) ? 'class="active"' : '') }}><a {{ (($i!=count($breadcrumb)-1) ? 'href='.$b['url'].' class=ajax_anchor' : '') }}>@if($i==0)<i class="fa fa-tachometer-alt"></i>@endif {{ $b['name'] }}</a></li>
+                            @endforeach
                         </ol>
                         @endif
                     </section>

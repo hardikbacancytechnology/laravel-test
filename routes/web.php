@@ -53,6 +53,16 @@ Route::get('/all-clear', function() {
 Route::get('/', function(){
     return view('welcome');
 });
+Route::redirect('here', 'there', 301);
+Route::get('there', function(){
+    return view('welcome');
+});
+Route::get('user/{name?}', function ($name = null) {
+    return $name;
+});
+Route::get('user/{name?}', function ($name = 'John') {
+    return $name;
+});
 Auth::routes();
 Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
   Route::get('/home', 'HomeController@index')->name('home');
