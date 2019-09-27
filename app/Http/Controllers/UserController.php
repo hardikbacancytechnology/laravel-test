@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserRequest;
+use App\Jobs\ProcessPodcast;
 use Auth;
 use Hash;
 use Response;

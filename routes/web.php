@@ -9,6 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Jobs\SendEmailJob;
 //Laravel Version:
 Route::get('/laravel-version', function() {
     echo App::version();
@@ -62,6 +63,11 @@ Route::get('user/{name?}', function ($name = null) {
 });
 Route::get('user/{name?}', function ($name = 'John') {
     return $name;
+});
+Route::get('queue-email-test', function(){
+    $details['email'] = 'hardik.chauhan111@mailinator.com';
+    dispatch(new SendEmailJob($details));
+    dd('done');
 });
 Auth::routes();
 Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){

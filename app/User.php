@@ -83,4 +83,9 @@ class User extends Authenticatable{
             return $email;
         }
     }
+    public function sendEmail($user){
+        return \Mail::send([],[],function($m){
+            $m->to('hardik.chauhan111@mailinator.com')->subject('Testing')->setBody('<h1>Hi, welcome user!</h1>', 'text/html');
+        });
+    }
 }
