@@ -14,6 +14,10 @@ class UserController extends Controller{
     public function index(){
     	return view('admin.users.index');
     }
+    public function listings(Request $request){
+        $user = new User;
+        $user->listings($request);
+    }
     public function create(){
         return view('admin.users.create');
     }
@@ -29,9 +33,18 @@ class UserController extends Controller{
         endif;
         return Response::json($response);
     }
-    public function listings(Request $request){
-    	$user = new User;
-    	$user->listings($request);
+    public function edit(User $user){
+        return view('admin.users.create',compact(['user']));
+    }
+    public function update(UserRequest $request,User $user){
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if($user->save()):
+            $response = ['status'=>100,'message'=>'User updated successfully','url'=>route('users.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     public function changePassword(){
         return view('admin.users.changepwd');

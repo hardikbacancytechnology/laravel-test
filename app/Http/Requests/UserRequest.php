@@ -16,11 +16,14 @@ class UserRequest extends FormRequest{
      * @return array
      */
     public function rules(){
-        return [
+        $rules = [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
+            'email' => 'required|email|unique:users'.((isset($this->user)) ? ',email,'.$this->user->id : '')
         ];
+        if(!isset($this->user)){
+            $rules += ['password' => 'required'];
+        }
+        return $rules;
     }
     public function messages(){
         return [

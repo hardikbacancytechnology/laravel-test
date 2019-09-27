@@ -1,5 +1,9 @@
 @extends('adminlte::page')
+@if(!isset($user))
 @section('title', 'Add new user')
+@else
+@section('title', 'Edit user')
+@endif
 @section('content_header')
 <h1>@yield('title')</h1>
 @stop
@@ -14,21 +18,26 @@
 			</div>
 			<!-- /.box-header -->
 			<!-- form start -->
-			<form role="form" method="POST" action="{{ route('users.store') }}" id="create-user-form" autocomplete="off">
+			<form role="form" method="POST" action="{{ ((!isset($user)) ? route('users.store') : route('users.update',$user->id)) }}" id="create-user-form" autocomplete="off">
 				{{ csrf_field() }}
+				@if(isset($user))
+				{{ method_field('PATCH') }}
+				@endif
 				<div class="box-body">
 					<div class="form-group">
 						<label for="name">Name</label>
-						<input type="text" class="form-control" name="name" id="name" placeholder="Enter name" />
+						<input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{ ((!isset($user)) ? old('name') : $user->name) }}" />
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" />
+						<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ ((!isset($user)) ? old('email') : $user->email) }}"/>
 					</div>
+					@if(!isset($user))
 					<div class="form-group">
 						<label for="password">Password</label>
 						<input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
 					</div>
+					@endif
 				</div>
 				<!-- /.box-body -->
 
