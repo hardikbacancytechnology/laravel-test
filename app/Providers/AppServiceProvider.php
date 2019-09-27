@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             ],
             [
                 'text'        => 'Dashboard',
-                'icon'        => 'far fa-dashboard',
+                'icon'        => 'fa fa-tachometer-alt',
                 'label_color' => 'success',
                 'submenu' => [
                     [
