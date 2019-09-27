@@ -10,7 +10,7 @@
 			<div class="box-header">
 				<h3 class="box-title">Users Listing Data Table</h3>
 				<div class="box-tools">
-					<a href="" class="btn btn-primary" title="Add new user" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"	></i></a>
+					<a href="{{ route('users.create') }}" class="btn btn-primary ajax_anchor" title="Add new user" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"	></i></a>
 				</div>
 			</div>
 			<!-- /.box-header -->

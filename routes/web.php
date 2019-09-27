@@ -50,7 +50,7 @@ Route::get('/all-clear', function() {
    Artisan::call('view:clear');
    return "Cleared!";
 });
-Route::get('/', function () {
+Route::get('/', function(){
     return view('welcome');
 });
 Auth::routes();

@@ -668,6 +668,17 @@ function ajaxSubmitForm(form){
         success:function(response){
             if(response.status==100){
                 toastr.success(response.message);
+                if(typeof response.url !== 'undefined'){
+                    $("#content").load(response.url+' .ajax_contents',function(responseTxt,statusTxt,xhr){
+                        if(statusTxt == "success"){
+                            loadScripts();
+                            $('title').text($('.content-header h1').text());
+                            window.history.pushState(null,null,$href);
+                        }else if(statusTxt == "error"){
+                            toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
+                        }
+                    });
+                }
                 $('#'+form).trigger("reset");
             }else{
                 if(typeof response.errors !== 'undefined'){
