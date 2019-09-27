@@ -40,9 +40,9 @@
 					@endif
 				</div>
 				<!-- /.box-body -->
-
 				<div class="box-footer">
 					<button type="submit" class="btn btn-primary submit-form" data-module="create-user">Submit</button>
+					<a href="{{ route('users.index') }}" class="btn btn-default ajax_anchor">Cancel</a>
 				</div>
 			</form>
 		</div>
