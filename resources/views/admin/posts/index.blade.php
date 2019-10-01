@@ -24,7 +24,7 @@
                         <li style="list-style-type:disc">
                             <a href="{{ route('posts.show', $post->id ) }}" class="ajax_anchor"><b>{{ $post->title }}</b><br>
                                 <p class="teaser">
-                                   {{  str_limit($post->body, 100) }} {{-- Limit teaser to 100 characters --}}
+                                   {!!  str_limit($post->body, 100) !!} {{-- Limit teaser to 100 characters --}}
                                 </p>
                             </a>
                         </li>
