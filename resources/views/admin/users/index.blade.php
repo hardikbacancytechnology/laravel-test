@@ -18,20 +18,24 @@
 				<table id="users-tbl" class="table table-bordered table-hover dt-responsive data-table" style="width:100%">
 					<thead>
 						<tr>
-							<th>Sr No.</th>
-							<th>Id</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Action</th>
-						</tr>
+		                    <th>Sr. No</th>
+		                    <th>Id</th>
+		                    <th>Name</th>
+		                    <th>Email</th>
+		                    <th>Date/Time Added</th>
+		                    <th>User Roles</th>
+		                    <th>Operations</th>
+		                </tr>
 					</thead>
 					<tfoot>
 						<tr>
-							<th>Sr No.</th>
+							<th>Sr. No</th>
 							<th>Id</th>
 							<th>Name</th>
-							<th>Email</th>
-							<th>Action</th>
+		                    <th>Email</th>
+		                    <th>Date/Time Added</th>
+		                    <th>User Roles</th>
+		                    <th>Operations</th>
 						</tr>
 					</tfoot>
 				</table>

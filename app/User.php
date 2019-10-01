@@ -2,9 +2,10 @@
 namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use Hash;
 class User extends Authenticatable{
-    use Notifiable;
+    use Notifiable,HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +23,8 @@ class User extends Authenticatable{
             $columns[] = 'id';
             $columns[] = 'name';
             $columns[] = 'email';
+            $columns[] = 'created_at';
+            $columns[] = 'created_at';            
             $users = User::selectRaw(implode(',',$columns));
             if(isset($request->order[0]['column'])){
                 $users->orderBy($columns[$request->order[0]['column']-1],$request->order[0]['dir']);
@@ -66,7 +69,11 @@ class User extends Authenticatable{
                     for($i=0;$i<count($columns);$i++){
                         $col = $columns[$i];
                         $primary_key = $columns[0];
-                        $sOutput .= '"'.$this->checkEmail($user->$col).'",';
+                        if($i==4){
+                            $sOutput .= '"'.$user->roles()->pluck('name')->implode(' ').'",';
+                        }else{
+                            $sOutput .= '"'.$this->checkEmail($user->$col).'",';
+                        }
                     }
                     $sOutput .= '"<a href=\"'.route('users.edit',$user->$primary_key).'\" class=\"btn btn-primary btn-sm ajax_anchor\" title=\"Edit user\" data-toggle=\"tooltip\"><i class=\"fa fa-edit\"></i></a>'.(($user->$primary_key!=\Auth::user()->id) ? ' | <a href=\"javascript:;\" class=\"btn btn-danger btn-sm confirm-delete\" data-module=\"users\" data-id=\"'.$user->$primary_key.'\" title=\"Delete user\" data-toggle=\"tooltip\"><i class=\"fa fa-trash\"></i></a>' : '').'"';
                     $sOutput .= '],';

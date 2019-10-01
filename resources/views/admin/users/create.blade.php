@@ -32,6 +32,13 @@
 						<label for="email">Email</label>
 						<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ ((!isset($user)) ? old('email') : $user->email) }}"/>
 					</div>
+					<h5><b>Give Role</b></h5>
+					<div class='form-group'>
+				        @foreach ($roles as $role)
+				            {{ Form::checkbox('roles[]',$role->id,(isset($user) ? $user->roles : '')) }}
+				            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
+				        @endforeach
+				    </div>
 					@if(!isset($user))
 					<div class="form-group">
 						<label for="password">Password</label>

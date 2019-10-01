@@ -78,4 +78,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
   Route::post('/users/change-password', 'UserController@storeNewPassword');
   Route::post('/users/listings', 'UserController@listings');
   Route::resource('users', 'UserController');
+  Route::resource('roles', 'RoleController');
+  Route::resource('permissions', 'PermissionController');
+  Route::resource('posts', 'PostController');
 });

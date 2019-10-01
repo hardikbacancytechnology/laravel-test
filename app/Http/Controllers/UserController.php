@@ -8,25 +8,23 @@ use Auth;
 use Hash;
 use Response;
 use App\User;
+//Importing laravel-permission models
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+//Enables us to output flash messaging
+use Session;
 class UserController extends Controller{
-    public function profile(){
-        $breadcrumb[0]['name'] = 'Dashboard';
-        $breadcrumb[0]['url'] = route('home');
-        $breadcrumb[1]['name'] = 'User Profile';
-        $breadcrumb[1]['url'] = '';
-    	return view('admin.users.profile',compact(['breadcrumb']));
-    }
+    public function __construct() {
+        $this->middleware(['auth','isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }    
     public function index(){
         $breadcrumb[0]['name'] = 'Dashboard';
         $breadcrumb[0]['url'] = route('home');
         $breadcrumb[1]['name'] = 'Users Listing';
         $breadcrumb[1]['url'] = '';
-    	return view('admin.users.index',compact(['breadcrumb']));
-    }
-    public function listings(Request $request){
-        $user = new User;
-        $user->listings($request);
-    }
+        $users = User::all();
+    	return view('admin.users.index',compact(['breadcrumb','users']));
+    }    
     public function create(){
         $breadcrumb[0]['name'] = 'Dashboard';
         $breadcrumb[0]['url'] = route('home');
@@ -34,10 +32,19 @@ class UserController extends Controller{
         $breadcrumb[1]['url'] = route('users.index');
         $breadcrumb[2]['name'] = 'Add new user';
         $breadcrumb[2]['url'] = '';
-        return view('admin.users.create',compact(['breadcrumb']));
+        $roles = Role::get();
+        return view('admin.users.create',compact(['breadcrumb','roles']));
     }
     public function store(UserRequest $request){
         $user = new User;
+        $roles = $request['roles']; //Retrieving the roles field
+        //Checking if a role was selected
+        if (isset($roles)) {
+            foreach ($roles as $role) {
+                $role_r = Role::where('id', '=', $role)->firstOrFail();
+                $user->assignRole($role_r); //Assigning role to user
+            }
+        }        
         if($user->saveData($request,$user)):
             $response = ['status'=>100,'message'=>'User created successfully','url'=>route('users.index'),'counter'=>User::count()];
         else:
@@ -52,15 +59,53 @@ class UserController extends Controller{
         $breadcrumb[1]['url'] = route('users.index');
         $breadcrumb[2]['name'] = 'Edit user';
         $breadcrumb[2]['url'] = '';
-        return view('admin.users.create',compact(['user','breadcrumb']));
+        $roles = Role::get(); //Get all roles
+        return view('admin.users.create',compact(['user','breadcrumb','roles']));
     }
     public function update(UserRequest $request,User $user){
         if($user->saveData($request,$user)):
+            $roles = $request['roles']; //Retreive all roles
+            if (isset($roles)) {
+                $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
+            }else {
+                $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+            }
             $response = ['status'=>100,'message'=>'User updated successfully','url'=>route('users.index')];
         else:
             $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
         endif;
         return Response::json($response);
+    }
+    public function destroy(User $user){
+        if(!$user){
+            $response = ['status'=>101,'message'=>'The user you are tryinng to delete does not exists!!!'];
+        }else{
+            if($user->id=='1' and Auth::user()->id!='1'){
+                $response = ['status'=>104,'message'=>'You don\'t have permission to delete this record!!!'];
+            }else{
+                if($user->id==Auth::user()->id){
+                    $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
+                }else{
+                    if($user->delete()):
+                        $response = ['status'=>100,'message'=>'The user deleted successfully!!!','counter'=>User::count()];
+                    else:
+                        $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
+                    endif;
+                }
+            }
+        }
+        return Response::json($response);
+    }
+    public function listings(Request $request){
+        $user = new User;
+        $user->listings($request);
+    }
+    public function profile(){
+        $breadcrumb[0]['name'] = 'Dashboard';
+        $breadcrumb[0]['url'] = route('home');
+        $breadcrumb[1]['name'] = 'User Profile';
+        $breadcrumb[1]['url'] = '';
+        return view('admin.users.profile',compact(['breadcrumb']));
     }
     public function changePassword(){
         $breadcrumb[0]['name'] = 'Dashboard';
@@ -83,26 +128,6 @@ class UserController extends Controller{
             endif;
         }else{
             $response = ['status'=>101,'message'=>'There is a problem','errors'=>['old_pwd'=>'Old password did not match']];
-        }
-        return Response::json($response);
-    }
-    public function destroy(User $user){
-        if(!$user){
-            $response = ['status'=>101,'message'=>'The user you are tryinng to delete does not exists!!!'];
-        }else{
-            if($user->id=='1' and Auth::user()->id!='1'){
-                $response = ['status'=>104,'message'=>'You don\'t have permission to delete this record!!!'];
-            }else{
-                if($user->id==Auth::user()->id){
-                    $response = ['status'=>102,'message'=>'You can\'t delete your own record!!!'];
-                }else{
-                    if($user->delete()):
-                        $response = ['status'=>100,'message'=>'The user deleted successfully!!!','counter'=>User::count()];
-                    else:
-                        $response = ['status'=>103,'message'=>'The user you are tryinng to delete does not exists!!!'];
-                    endif;
-                }
-            }
         }
         return Response::json($response);
     }

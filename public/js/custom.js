@@ -524,8 +524,9 @@ function loadScripts(){
         var $lengthMenu = [10,25,50,100];
         var $pageLength = 10;
         var $columnDefs = [];
+        var $ajax = '';
         if($datatableId=='users-tbl'){
-            $processing = false;
+            $processing = true;
             $serverSide = true;
             $order = [[1, 'desc']];
             $columnDefs = [{
@@ -533,15 +534,16 @@ function loadScripts(){
                 "searchable": false,
                 "orderable": false,
             }];
+            $ajax = {
+                "url":site_url+'admin/users/listings',
+                "type":"POST",
+                "data":{_token:csrf_token}
+            };
         }
         $('#'+$datatableId).DataTable({
             "processing": $processing,
             "serverSide": $serverSide,
-            "ajax":{
-                "url":site_url+'admin/users/listings',
-                "type":"POST",
-                "data":{_token:csrf_token}
-            },
+            "ajax":$ajax,
             "lengthMenu": $lengthMenu,
             "pageLength": $pageLength,
             "order": $order,
