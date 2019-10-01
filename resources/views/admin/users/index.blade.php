@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Users Listing')
 @section('content_header')
-<h1>Users Listing</h1>
+<h1>@yield('title')</h1>
 @stop
 @section('content')
 <div class="row">
@@ -10,7 +10,7 @@
 			<div class="box-header">
 				<h3 class="box-title">Users Listing Data Table</h3>
 				<div class="box-tools">
-					<a href="{{ route('users.create') }}" class="btn btn-primary ajax_anchor" title="Add new user" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"	></i></a>
+					<a href="{{ route('users.create') }}" class="btn btn-primary ajax_anchor" title="Add new user" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"></i></a>
 				</div>
 			</div>
 			<!-- /.box-header -->

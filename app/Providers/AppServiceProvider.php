@@ -46,6 +46,16 @@ class AppServiceProvider extends ServiceProvider
                 ]
             ],
             [
+                'text'        => 'Roles',
+                'url'         => 'admin/roles',
+                'icon'        => 'fa fa-user-tag'
+            ],
+            [
+                'text'        => 'Permissions',
+                'url'         => 'admin/permissions',
+                'icon'        => 'fa fa-user-lock'
+            ],
+            [
                 'text'        => 'Users',
                 'url'         => 'admin/users',
                 'icon'        => 'fa fa-users',

@@ -1,4 +1,5 @@
 function loadContent($href,$this=''){
+    toastr.remove();
     $("#content").load($href+' .ajax_contents',function(responseTxt,statusTxt,xhr){
         if(statusTxt == "success"){
             loadScripts();
@@ -33,7 +34,8 @@ function loadContent($href,$this=''){
             }
             window.history.pushState(null,null,$href);
         }else if(statusTxt == "error"){
-            toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
+            showAjaxErrors(xhr,statusTxt);
+            // toastr.error("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
 }
@@ -668,10 +670,14 @@ function ajaxSubmitForm(form){
     });
 }
 function showAjaxErrors(jqXHR,exception){
+    console.log(jqXHR);
     toastr.remove();
     var msg = '';
     if(jqXHR.status === 0){
         msg = 'Not connect.\n Verify Network.';
+    }else if(jqXHR.status == 401){
+        msg = 'You don\'t have enough permission.';
+        loadContent(site_url+'401');
     }else if(jqXHR.status == 404){
         msg = 'Requested page not found. [404]';
     }else if(jqXHR.status == 500){
@@ -736,7 +742,6 @@ $(document).on('click','.confirm-delete',function(){
                     showAjaxErrors(jqXHR,exception);
                 }
             });
-            
         }else{
             swal("Your record is safe!",{icon: "info"});
         }
