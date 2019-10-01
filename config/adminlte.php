@@ -385,7 +385,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/vendor/adminlte/dist/js/adminlte.min.js',
+                    'location' => env('APP_URL').'/vendor/adminlte/dist/js/adminlte.min.js',
                 ],
             ],
         ],
@@ -396,12 +396,12 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/js/jquery.validate.min.js',
+                    'location' => env('APP_URL').'/js/jquery.validate.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/js/additional-methods.min.js',
+                    'location' => env('APP_URL').'/js/additional-methods.min.js',
                 ],
             ],
         ],
@@ -412,12 +412,12 @@ return [
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/css/toastr.min.css',
+                    'location' => env('APP_URL').'/css/toastr.min.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/js/toastr.min.js',
+                    'location' => env('APP_URL').'/js/toastr.min.js',
                 ],
             ],
         ],
@@ -428,7 +428,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => env('APP_URL').'/public/js/custom.js',
+                    'location' => env('APP_URL').'/js/custom.js',
                 ],
             ],
         ],
