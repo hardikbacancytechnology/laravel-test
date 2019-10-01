@@ -1,5 +1,5 @@
 function loadContent($href,$this=''){
-    toastr.remove();
+    // toastr.remove();
     $("#content").load($href+' .ajax_contents',function(responseTxt,statusTxt,xhr){
         if(statusTxt == "success"){
             loadScripts();

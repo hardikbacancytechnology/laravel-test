@@ -7,6 +7,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Schema;
 use App\User;
+use App\Post;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -60,6 +61,13 @@ class AppServiceProvider extends ServiceProvider
                 'url'         => 'admin/users',
                 'icon'        => 'fa fa-users',
                 'label'       => User::count(),
+                'label_color' => 'success',
+            ],
+            [
+                'text'        => 'Posts',
+                'url'         => 'admin/posts',
+                'icon'        => 'fa fa-file-alt',
+                'label'       => Post::count(),
                 'label_color' => 'success',
             ],
             ['header' => 'account_settings'],

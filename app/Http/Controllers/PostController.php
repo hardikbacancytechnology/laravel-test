@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Auth;
+use Response;
 use Session;
 class PostController extends Controller{
     public function __construct() {
@@ -15,7 +16,7 @@ class PostController extends Controller{
      */
     public function index(){
         $posts = Post::orderby('id', 'desc')->paginate(5); //show only 5 items at a time in descending order
-        return view('posts.index', compact('posts'));
+        return view('admin.posts.index', compact('posts'));
     }
     /**
      * Show the form for creating a new resource.
@@ -23,7 +24,7 @@ class PostController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return view('posts.create');
+        return view('admin.posts.create');
     }
     /**
      * Store a newly created resource in storage.
@@ -39,10 +40,12 @@ class PostController extends Controller{
         ]);
         $title = $request['title'];
         $body = $request['body'];
-
-        $post = Post::create($request->only('title', 'body'));
-        //Display a successful message upon save
-        return redirect()->route('posts.index')->with('flash_message', 'Article,'. $post->title.' created');
+        if(Post::create($request->only('title', 'body'))):
+            $response = ['status'=>100,'message'=>'Article '. $request->title.' created','url'=>route('posts.index'),'counter'=>Post::count()];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
      * Display the specified resource.
@@ -52,8 +55,7 @@ class PostController extends Controller{
      */
     public function show($id){
         $post = Post::findOrFail($id); //Find post of id = $id
-
-        return view ('posts.show', compact('post'));
+        return view ('admin.posts.show', compact('post'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -63,8 +65,7 @@ class PostController extends Controller{
      */
     public function edit($id){
         $post = Post::findOrFail($id);
-
-        return view('posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post'));
     }
     /**
      * Update the specified resource in storage.
@@ -78,15 +79,15 @@ class PostController extends Controller{
             'title'=>'required|max:100',
             'body'=>'required',
         ]);
-
         $post = Post::findOrFail($id);
         $post->title = $request->input('title');
         $post->body = $request->input('body');
-        $post->save();
-
-        return redirect()->route('posts.show', 
-            $post->id)->with('flash_message', 
-            'Article, '. $post->title.' updated');
+        if($post->save()):
+            $response = ['status'=>100,'message'=>'Article  updated','url'=>route('posts.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
      * Remove the specified resource from storage.
@@ -97,9 +98,6 @@ class PostController extends Controller{
     public function destroy($id){
         $post = Post::findOrFail($id);
         $post->delete();
-
-        return redirect()->route('posts.index')
-            ->with('flash_message',
-             'Article successfully deleted');
+        return redirect()->route('posts.index')->with('flash_message','Article successfully deleted');
     }
 }
