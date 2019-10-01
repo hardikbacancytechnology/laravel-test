@@ -569,6 +569,13 @@ function loadScripts(){
     if($('select').length){
         $('select').select2();
     }
+    if($('textarea.wysiwyg-editor').length){
+        $('textarea.wysiwyg-editor').each(function(e){
+            if(!$(this).next('.cke').length){
+                CKEDITOR.replace($(this).attr('name'));
+            }
+        });
+    }
     if($('*[data-toggle="tooltip"]').length){
         $('*[data-toggle="tooltip"]').tooltip();
     }

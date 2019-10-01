@@ -23,7 +23,7 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('body', 'Post Body') }}
-                    {{ Form::textarea('body', null, array('class' => 'form-control')) }}
+                    {{ Form::textarea('body', null, array('class' => 'form-control wysiwyg-editor')) }}
                 </div>
             </div>
             <!-- /.box-body -->

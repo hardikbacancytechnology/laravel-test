@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('body', 'Post Body') }}
-                    {{ Form::textarea('body', null, array('class' => 'form-control')) }}<br>
+                    {{ Form::textarea('body', null, array('class' => 'form-control wysiwyg-editor')) }}<br>
                 </div>
             </div>
             <!-- /.box-body -->

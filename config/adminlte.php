@@ -422,6 +422,17 @@ return [
             ],
         ],
         [
+            'name' => 'CKEditor Js',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.ckeditor.com/4.13.0/standard/ckeditor.js',
+                ],
+            ],
+        ],
+        [
             'name' => 'Custom JS',
             'active' => true,
             'files' => [
