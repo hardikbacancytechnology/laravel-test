@@ -733,11 +733,15 @@ $(document).on('click','.confirm-delete',function(){
                 success:function(response){
                     if(response.status==100){
                         swal("Poof! "+response.message+"!",{icon: "success"});
+                        if(typeof response.url !== 'undefined'){
+                            loadContent(response.url);
+                        }else{
+                            if($('#'+$module+'-tbl').length){$('#'+$module+'-tbl').DataTable().ajax.reload();}
+                            if($('*[data-toggle="tooltip"]').length){$('*[data-toggle="tooltip"]').tooltip();}
+                        }
                         if(typeof response.counter !== 'undefined'){
                             $('.sidebar-menu a[href="'+site_url+'admin/'+$module+'"] .pull-right-container span').text(response.counter);
                         }
-                        if($('#'+$module+'-tbl').length){$('#'+$module+'-tbl').DataTable().ajax.reload();}
-                        if($('*[data-toggle="tooltip"]').length){$('*[data-toggle="tooltip"]').tooltip();}
                     }else{
                         swal(response.message,{icon: "error"});
                     }
