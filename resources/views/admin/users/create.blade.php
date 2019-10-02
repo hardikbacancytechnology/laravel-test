@@ -41,7 +41,7 @@
 					<h5><b>Give Role</b></h5>
 					<div class='form-group'>
 				        @foreach ($roles as $role)
-				            {{ Form::checkbox('roles[]',$role->id,(isset($user) ? $user->roles : '')) }}
+				            {{ Form::checkbox('roles[]',$role->id,(isset($user) ? in_array($role->id,$selectedRoles) : '')) }}
 				            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
 				        @endforeach
 				    </div>

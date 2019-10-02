@@ -59,8 +59,12 @@ class UserController extends Controller{
         $breadcrumb[1]['url'] = route('users.index');
         $breadcrumb[2]['name'] = 'Edit user';
         $breadcrumb[2]['url'] = '';
+        $selectedRoles = [];
+        foreach ($user->roles as $key => $role) {
+            $selectedRoles[] += $role->id;
+        }
         $roles = Role::get(); //Get all roles
-        return view('admin.users.create',compact(['user','breadcrumb','roles']));
+        return view('admin.users.create',compact(['user','breadcrumb','roles','selectedRoles']));
     }
     public function update(UserRequest $request,User $user){
         if($user->saveData($request,$user)):
