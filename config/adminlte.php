@@ -352,6 +352,22 @@ return [
             ],
         ],
         [
+            'name' => 'iCheck JS',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/all.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js',
+                ],
+            ],
+        ],
+        [
             'name' => 'Sweetalert2',
             'active' => true,
             'files' => [

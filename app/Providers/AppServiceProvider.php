@@ -70,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
                 'label'       => Post::count(),
                 'label_color' => 'success',
             ],
+            [
+                'text' => 'Mailbox',
+                'url'  => 'admin/mailbox',
+                'icon' => 'fa fa-envelope',
+            ],
             ['header' => 'account_settings'],
             [
                 'text' => 'profile',
@@ -81,6 +86,7 @@ class AppServiceProvider extends ServiceProvider
                 'url'  => 'admin/users/change-password',
                 'icon' => 'fas fa-fw fa-lock',
             ],
+            ['header' => 'labels'],
             [
                 'text'    => 'multilevel',
                 'icon'    => 'fas fa-fw fa-share',
@@ -119,7 +125,6 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ],
             ],
-            ['header' => 'labels'],
             [
                 'text'       => 'important',
                 'icon_color' => 'red',

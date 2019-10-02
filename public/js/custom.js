@@ -119,7 +119,7 @@ function loadScripts(){
         maintainAspectRatio     : true,
         // Boolean - whether to make the chart responsive to window resizing
         responsive              : true
-        };
+    };
         // Create the line chart
         salesChart.Line(salesChartData, salesChartOptions);
         // ---------------------------
@@ -196,7 +196,7 @@ function loadScripts(){
             legendTemplate       : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
             // String - A tooltip template
             tooltipTemplate      : '<%=value %> <%=label%> users'
-            };
+        };
             // Create pie or douhnut chart
             // You can switch between pie and douhnut using the method below.
             pieChart.Doughnut(PieData, pieOptions);
@@ -574,6 +574,17 @@ function loadScripts(){
             }
         });
     }
+    if($('.mailbox-messages input[type="checkbox"]').length){
+        //Enable iCheck plugin for checkboxes
+        //iCheck for checkbox and radio inputs
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+    }
+    if($('#compose-textarea').length){
+        $("#compose-textarea").wysihtml5();
+    }
     if($('*[data-toggle="tooltip"]').length){
         $('*[data-toggle="tooltip"]').tooltip();
     }
@@ -758,4 +769,35 @@ $(document).on('click','.confirm-delete',function(){
 $(document).on('click','.submit-form',function(e){
     var $form = $(this).data('module')+'-form';
     validateForm($form);
+});
+//Enable check and uncheck all functionality
+$(document).on('click','.checkbox-toggle',function(){
+    var clicks = $(this).data('clicks');
+    if (clicks){
+        //Uncheck all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+        $(".far", this).removeClass("fa-check-square").addClass('fa-square');
+    } else {
+        //Check all checkboxes  
+        $(".mailbox-messages input[type='checkbox']").iCheck("check");
+        $(".far", this).removeClass("fa-square").addClass('fa-check-square');
+    }
+    $(this).data("clicks", !clicks);
+});
+//Handle starring for glyphicon and font awesome
+$(document).on('click','.mailbox-star',function(e){
+    e.preventDefault();
+    //detect type
+    var $this = $(this).find("a > i");
+    var glyph = $this.hasClass("glyphicon");
+    var fa = $this.hasClass("fa");
+    //Switch states
+    if (glyph) {
+        $this.toggleClass("glyphicon-star");
+        $this.toggleClass("glyphicon-star-empty");
+    }
+    if (fa) {
+        $this.toggleClass("fa-star");
+        $this.toggleClass("fa-star-o");
+    }
 });
