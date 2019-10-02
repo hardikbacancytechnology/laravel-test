@@ -40,7 +40,6 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="{{ URL::to('admin/roles/create') }}" class="btn btn-success">Add Role</a>
             </div>
         </div>
     </div>
