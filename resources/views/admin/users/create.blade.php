@@ -32,6 +32,12 @@
 						<label for="email">Email</label>
 						<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ ((!isset($user)) ? old('email') : $user->email) }}"/>
 					</div>
+					@if(!isset($user))
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
+					</div>
+					@endif
 					<h5><b>Give Role</b></h5>
 					<div class='form-group'>
 				        @foreach ($roles as $role)
@@ -39,12 +45,6 @@
 				            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
 				        @endforeach
 				    </div>
-					@if(!isset($user))
-					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
-					</div>
-					@endif
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
