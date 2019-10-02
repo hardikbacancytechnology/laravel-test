@@ -352,6 +352,17 @@ return [
             ],
         ],
         [
+            'name' => 'eCharts JS',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/echarts/4.3.0/echarts.min.js',
+                ],
+            ],
+        ],
+        [
             'name' => 'iCheck JS',
             'active' => true,
             'files' => [

@@ -45,6 +45,214 @@ function loadScripts(){
         "showMethod":"slideDown",
         "hideMethod":"slideUp",
     };
+    var a = {
+        color: ["#26B99A", "#34495E", "#BDC3C7", "#3498DB", "#9B59B6", "#8abb6f", "#759c6a", "#bfd3b7"],
+        title: {
+            itemGap: 8,
+            textStyle: {
+                fontWeight: "normal",
+                color: "#408829"
+            }
+        },
+        dataRange: {
+            color: ["#1f610a", "#97b58d"]
+        },
+        toolbox: {
+            color: ["#408829", "#408829", "#408829", "#408829"]
+        },
+        tooltip: {
+            backgroundColor: "rgba(0,0,0,0.5)",
+            axisPointer: {
+                type: "line",
+                lineStyle: {
+                    color: "#408829",
+                    type: "dashed"
+                },
+                crossStyle: {
+                    color: "#408829"
+                },
+                shadowStyle: {
+                    color: "rgba(200,200,200,0.3)"
+                }
+            }
+        },
+        dataZoom: {
+            dataBackgroundColor: "#eee",
+            fillerColor: "rgba(64,136,41,0.2)",
+            handleColor: "#408829"
+        },
+        grid: {
+            borderWidth: 0
+        },
+        categoryAxis: {
+            axisLine: {
+                lineStyle: {
+                    color: "#408829"
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: ["#eee"]
+                }
+            }
+        },
+        valueAxis: {
+            axisLine: {
+                lineStyle: {
+                    color: "#408829"
+                }
+            },
+            splitArea: {
+                show: !0,
+                areaStyle: {
+                    color: ["rgba(250,250,250,0.1)", "rgba(200,200,200,0.1)"]
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: ["#eee"]
+                }
+            }
+        },
+        timeline: {
+            lineStyle: {
+                color: "#408829"
+            },
+            controlStyle: {
+                normal: {
+                    color: "#408829"
+                },
+                emphasis: {
+                    color: "#408829"
+                }
+            }
+        },
+        k: {
+            itemStyle: {
+                normal: {
+                    color: "#68a54a",
+                    color0: "#a9cba2",
+                    lineStyle: {
+                        width: 1,
+                        color: "#408829",
+                        color0: "#86b379"
+                    }
+                }
+            }
+        },
+        map: {
+            itemStyle: {
+                normal: {
+                    areaStyle: {
+                        color: "#ddd"
+                    },
+                    label: {
+                        textStyle: {
+                            color: "#c12e34"
+                        }
+                    }
+                },
+                emphasis: {
+                    areaStyle: {
+                        color: "#99d2dd"
+                    },
+                    label: {
+                        textStyle: {
+                            color: "#c12e34"
+                        }
+                    }
+                }
+            }
+        },
+        force: {
+            itemStyle: {
+                normal: {
+                    linkStyle: {
+                        strokeColor: "#408829"
+                    }
+                }
+            }
+        },
+        chord: {
+            padding: 4,
+            itemStyle: {
+                normal: {
+                    lineStyle: {
+                        width: 1,
+                        color: "rgba(128, 128, 128, 0.5)"
+                    },
+                    chordStyle: {
+                        lineStyle: {
+                            width: 1,
+                            color: "rgba(128, 128, 128, 0.5)"
+                        }
+                    }
+                },
+                emphasis: {
+                    lineStyle: {
+                        width: 1,
+                        color: "rgba(128, 128, 128, 0.5)"
+                    },
+                    chordStyle: {
+                        lineStyle: {
+                            width: 1,
+                            color: "rgba(128, 128, 128, 0.5)"
+                        }
+                    }
+                }
+            }
+        },
+        gauge: {
+            startAngle: 225,
+            endAngle: -45,
+            axisLine: {
+                show: !0,
+                lineStyle: {
+                    color: [
+                        [.2, "#86b379"],
+                        [.8, "#68a54a"],
+                        [1, "#408829"]
+                    ],
+                    width: 8
+                }
+            },
+            axisTick: {
+                splitNumber: 10,
+                length: 12,
+                lineStyle: {
+                    color: "auto"
+                }
+            },
+            axisLabel: {
+                textStyle: {
+                    color: "auto"
+                }
+            },
+            splitLine: {
+                length: 18,
+                lineStyle: {
+                    color: "auto"
+                }
+            },
+            pointer: {
+                length: "90%",
+                color: "auto"
+            },
+            title: {
+                textStyle: {
+                    color: "#333"
+                }
+            },
+            detail: {
+                textStyle: {
+                    color: "auto"
+                }
+            }
+        },
+        textStyle: {
+            fontFamily: "Arial, Verdana, sans-serif"
+        }
+    };
     /* ChartJS
     * -------
     * Here we will create a few charts using ChartJS
@@ -581,6 +789,234 @@ function loadScripts(){
             checkboxClass: 'icheckbox_flat-blue',
             radioClass: 'iradio_flat-blue'
         });
+    }
+    if ($("#echart_pie").length) {
+        var j = echarts.init(document.getElementById("echart_pie"), a);
+        j.setOption({
+            tooltip: {
+                trigger: "item",
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                x: "center",
+                y: "bottom",
+                data: ["Direct Access", "E-mail Marketing", "Union Ad", "Video Ads", "Search Engine"]
+            },
+            toolbox: {
+                show: !0,
+                feature: {
+                    magicType: {
+                        show: !0,
+                        type: ["pie", "funnel"],
+                        option: {
+                            funnel: {
+                                x: "25%",
+                                width: "50%",
+                                funnelAlign: "left",
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore: {
+                        show: !0,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: !0,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: !0,
+            series: [{
+                name: "访问来源",
+                type: "pie",
+                radius: "55%",
+                center: ["50%", "48%"],
+                data: [{
+                    value: 335,
+                    name: "Direct Access"
+                }, {
+                    value: 310,
+                    name: "E-mail Marketing"
+                }, {
+                    value: 234,
+                    name: "Union Ad"
+                }, {
+                    value: 135,
+                    name: "Video Ads"
+                }, {
+                    value: 1548,
+                    name: "Search Engine"
+                }]
+            }]
+        });
+        var k = {
+                normal: {
+                    label: {
+                        show: !1
+                    },
+                    labelLine: {
+                        show: !1
+                    }
+                }
+            },
+            l = {
+                normal: {
+                    color: "rgba(0,0,0,0)",
+                    label: {
+                        show: !1
+                    },
+                    labelLine: {
+                        show: !1
+                    }
+                },
+                emphasis: {
+                    color: "rgba(0,0,0,0)"
+                }
+            }
+    }
+    if ($("#echart_pie2").length) {
+        var h = echarts.init(document.getElementById("echart_pie2"), a);
+        h.setOption({
+            tooltip: {
+                trigger: "item",
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                x: "center",
+                y: "bottom",
+                data: ["rose1", "rose2", "rose3", "rose4", "rose5", "rose6"]
+            },
+            toolbox: {
+                show: !0,
+                feature: {
+                    magicType: {
+                        show: !0,
+                        type: ["pie", "funnel"]
+                    },
+                    restore: {
+                        show: !0,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: !0,
+                        title: "Save Image"
+                    }
+                }
+            },
+            calculable: !0,
+            series: [{
+                name: "Area Mode",
+                type: "pie",
+                radius: [25, 90],
+                center: ["50%", 170],
+                roseType: "area",
+                x: "50%",
+                max: 40,
+                sort: "ascending",
+                data: [{
+                    value: 10,
+                    name: "rose1"
+                }, {
+                    value: 5,
+                    name: "rose2"
+                }, {
+                    value: 15,
+                    name: "rose3"
+                }, {
+                    value: 25,
+                    name: "rose4"
+                }, {
+                    value: 20,
+                    name: "rose5"
+                }, {
+                    value: 35,
+                    name: "rose6"
+                }]
+            }]
+        })
+    }
+    if ($("#echart_donut").length) {
+        var i = echarts.init(document.getElementById("echart_donut"), a);
+        i.setOption({
+            tooltip: {
+                trigger: "item",
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            calculable: !0,
+            legend: {
+                x: "center",
+                y: "bottom",
+                data: ["Direct Access", "E-mail Marketing", "Union Ad", "Video Ads", "Search Engine"]
+            },
+            toolbox: {
+                show: !0,
+                feature: {
+                    magicType: {
+                        show: !0,
+                        type: ["pie", "funnel"],
+                        option: {
+                            funnel: {
+                                x: "25%",
+                                width: "50%",
+                                funnelAlign: "center",
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore: {
+                        show: !0,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: !0,
+                        title: "Save Image"
+                    }
+                }
+            },
+            series: [{
+                name: "Access to the resource",
+                type: "pie",
+                radius: ["35%", "55%"],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: !0
+                        },
+                        labelLine: {
+                            show: !0
+                        }
+                    },
+                    emphasis: {
+                        label: {
+                            show: !0,
+                            position: "center",
+                            textStyle: {
+                                fontSize: "14",
+                                fontWeight: "normal"
+                            }
+                        }
+                    }
+                },
+                data: [{
+                    value: 335,
+                    name: "Direct Access"
+                }, {
+                    value: 310,
+                    name: "E-mail Marketing"
+                }, {
+                    value: 234,
+                    name: "Union Ad"
+                }, {
+                    value: 135,
+                    name: "Video Ads"
+                }, {
+                    value: 1548,
+                    name: "Search Engine"
+                }]
+            }]
+        })
     }
     if($('#compose-textarea').length){
         $("#compose-textarea").wysihtml5();
