@@ -16,7 +16,9 @@ class PostController extends Controller{
      */
     public function index(){
         $posts = Post::orderby('id', 'desc')->paginate(5); //show only 5 items at a time in descending order
-        return view('admin.posts.index', compact('posts'));
+        $links = $posts->links();
+        $links = str_replace("<a", "<a class='ajax_anchor'", $links);
+        return view('admin.posts.index', compact('posts','links'));
     }
     /**
      * Show the form for creating a new resource.

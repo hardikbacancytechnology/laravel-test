@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    {!! $posts->links() !!}
+                    {!! $links !!}
                 </div>
             </div>
         </div>
