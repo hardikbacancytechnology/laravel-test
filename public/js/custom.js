@@ -330,6 +330,15 @@ function loadScripts(){
             forcePlaceholderSize: true,
             zIndex              : 999999
         });
+        /* The todo list plugin */
+        $('.todo-list').todoList({
+            onCheck  : function () {
+                window.console.log($(this), 'The element has been checked');
+            },
+            onUnCheck: function () {
+                window.console.log($(this), 'The element has been unchecked');
+            }
+        });
     }
     if($('.textarea').length){
         // bootstrap WYSIHTML5 - text editor
@@ -507,17 +516,6 @@ function loadScripts(){
         donut.redraw();
         line.redraw();
     });
-    if($('.todo-list').length){
-        /* The todo list plugin */
-        $('.todo-list').todoList({
-            onCheck  : function () {
-                window.console.log($(this), 'The element has been checked');
-            },
-            onUnCheck: function () {
-                window.console.log($(this), 'The element has been unchecked');
-            }
-        });
-    }
     if($('.data-table').length){
         var $datatableId = $('.data-table').attr('id');
         var $order = [[0, 'desc']];
@@ -677,7 +675,6 @@ function ajaxSubmitForm(form){
     });
 }
 function showAjaxErrors(jqXHR,exception){
-    console.log(jqXHR);
     toastr.remove();
     var msg = '';
     if(jqXHR.status === 0){

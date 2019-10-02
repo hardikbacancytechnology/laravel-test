@@ -14,7 +14,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
+            {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT','id'=>'create-roles-form')) }}
             <div class="box-body">
                 <div class="form-group">
                     {{ Form::label('name', 'Role Name') }}
@@ -28,7 +28,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
+                {{ Form::submit('Edit', array('data-module'=>'create-roles','class' => 'btn btn-primary submit-form')) }}
                 <a href="{{ route('roles.index') }}" class="btn btn-default ajax_anchor">Cancel</a>
             </div>
             {{ Form::close() }}    
