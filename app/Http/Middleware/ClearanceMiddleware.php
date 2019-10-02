@@ -14,14 +14,14 @@ class ClearanceMiddleware{
         if (Auth::user()->hasPermissionTo('Administer roles & permissions')){ //If user has this //permission
             return $next($request);
         }
-        if ($request->is('posts/create')){ //If user is creating a post
+        if ($request->is('admin/posts/create')){ //If user is creating a post
             if (!Auth::user()->hasPermissionTo('Create Post')){
                 abort('401');
             }else {
                 return $next($request);
             }
         }
-        if ($request->is('posts/*/edit')){ //If user is editing a post
+        if ($request->is('admin/posts/*/edit')){ //If user is editing a post
             if (!Auth::user()->hasPermissionTo('Edit Post')) {
                 abort('401');
             } else {
