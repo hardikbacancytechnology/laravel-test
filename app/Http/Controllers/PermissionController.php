@@ -5,6 +5,7 @@ use Auth;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Response;
 use Session;
 class PermissionController extends Controller{
     public function __construct() {        
@@ -42,15 +43,19 @@ class PermissionController extends Controller{
         $permission = new Permission();
         $permission->name = $name;
         $roles = $request['roles'];
-        $permission->save();
-        if (!empty($request['roles'])) { //If one or more role is selected
-            foreach ($roles as $role) {
-                $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
-                $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
-                $r->givePermissionTo($permission);
+        if($permission->save()):
+            if (!empty($request['roles'])) { //If one or more role is selected
+                foreach ($roles as $role) {
+                    $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
+                    $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
+                    $r->givePermissionTo($permission);
+                }
             }
-        }
-        return redirect()->route('permissions.index')->with('flash_message','Permission'. $permission->name.' added!');
+            $response = ['status'=>100,'message'=>'Permission created','url'=>route('permissions.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
     * Display the specified resource.
@@ -84,8 +89,12 @@ class PermissionController extends Controller{
             'name'=>'required|max:40',
         ]);
         $input = $request->all();
-        $permission->fill($input)->save();
-        return redirect()->route('permissions.index')->with('flash_message','Permission'. $permission->name.' updated!');
+        if($permission->fill($input)->save()):
+            $response = ['status'=>100,'message'=>'Permission updated','url'=>route('permissions.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
     * Remove the specified resource from storage.
@@ -97,9 +106,13 @@ class PermissionController extends Controller{
         $permission = Permission::findOrFail($id);
         //Make it impossible to delete this specific permission    
         if ($permission->name == "Administer roles & permissions"){
-            return redirect()->route('permissions.index')->with('flash_message','Cannot delete this Permission!');
+            $response = ['status'=>103,'message'=>'Cannot delete this Permission'];
         }
-        $permission->delete();
-        return redirect()->route('permissions.index')->with('flash_message','Permission deleted!');
+        if($permission->delete()):
+            $response = ['status'=>100,'message'=>'Permission deleted','url'=>route('permissions.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with deleting data'];
+        endif;
+        return Response::json($response);
     }
 }

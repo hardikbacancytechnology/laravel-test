@@ -70,7 +70,7 @@ class User extends Authenticatable{
                         $col = $columns[$i];
                         $primary_key = $columns[0];
                         if($i==4){
-                            $sOutput .= '"'.$user->roles()->pluck('name')->implode(' ').'",';
+                            $sOutput .= '"'.$user->roles()->pluck('name')->implode(' | ').'",';
                         }else{
                             $sOutput .= '"'.$this->checkEmail($user->$col).'",';
                         }

@@ -5,6 +5,7 @@ use Auth;
 //Importing laravel-permission models
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Response;
 use Session;
 class RoleController extends Controller{
     public function __construct() {
@@ -44,15 +45,19 @@ class RoleController extends Controller{
         $role = new Role();
         $role->name = $name;
         $permissions = $request['permissions'];
-        $role->save();
-        //Looping thru selected permissions
-        foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); 
-            //Fetch the newly created role and assign permission
-            $role = Role::where('name', '=', $name)->first(); 
-            $role->givePermissionTo($p);
-        }
-        return redirect()->route('roles.index')->with('flash_message','Role'. $role->name.' added!');
+        if($role->save()):
+            //Looping thru selected permissions
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+                //Fetch the newly created role and assign permission
+                $role = Role::where('name', '=', $name)->first(); 
+                $role->givePermissionTo($p);
+            }
+            $response = ['status'=>100,'message'=>'Role created','url'=>route('roles.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
      * Display the specified resource.
@@ -90,16 +95,20 @@ class RoleController extends Controller{
         ]);
         $input = $request->except(['permissions']);
         $permissions = $request['permissions'];
-        $role->fill($input)->save();
-        $p_all = Permission::all();//Get all permissions
-        foreach ($p_all as $p) {
-            $role->revokePermissionTo($p); //Remove all permissions associated with role
-        }
-        foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
-            $role->givePermissionTo($p);  //Assign permission to role
-        }
-        return redirect()->route('roles.index')->with('flash_message','Role'. $role->name.' updated!');
+        if($role->fill($input)->save()):
+            $p_all = Permission::all();//Get all permissions
+            foreach ($p_all as $p) {
+                $role->revokePermissionTo($p); //Remove all permissions associated with role
+            }
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
+                $role->givePermissionTo($p);  //Assign permission to role
+            }
+            $response = ['status'=>100,'message'=>'Role updated','url'=>route('roles.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with saving data'];
+        endif;
+        return Response::json($response);
     }
     /**
      * Remove the specified resource from storage.
@@ -109,7 +118,11 @@ class RoleController extends Controller{
      */
     public function destroy($id){
         $role = Role::findOrFail($id);
-        $role->delete();
-        return redirect()->route('roles.index')->with('flash_message','Role deleted!');
+        if($role->delete()):
+            $response = ['status'=>100,'message'=>'Role deleted','url'=>route('roles.index')];
+        else:
+            $response = ['status'=>102,'message'=>'Something went wrong with deleting data'];
+        endif;
+        return Response::json($response);
     }
 }

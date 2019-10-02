@@ -14,7 +14,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {{ Form::open(array('url' => 'admin/permissions')) }}
+            {{ Form::open(array('url' => 'admin/permissions','id'=>'create-permission-form')) }}
             <div class="box-body">
                 <div class="form-group">
                     {{ Form::label('name', 'Name') }}
@@ -30,7 +30,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+                {{ Form::submit('Add', array('data-module'=>'create-permission','class' => 'btn btn-primary submit-form')) }}
                 <a href="{{ route('permissions.index') }}" class="btn btn-default ajax_anchor">Cancel</a>
             </div>
             {{ Form::close() }}

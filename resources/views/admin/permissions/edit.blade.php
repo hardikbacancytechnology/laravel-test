@@ -14,7 +14,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {{ Form::model($permission, array('route' => array('permissions.update', $permission->id), 'method' => 'PUT')) }}{{-- Form model binding to automatically populate our fields with permission data --}}
+            {{ Form::model($permission, array('route' => array('permissions.update', $permission->id), 'method' => 'PUT','id'=>'create-permission-form')) }}{{-- Form model binding to automatically populate our fields with permission data --}}
             <div class="box-body">
                 <div class="form-group">
                     {{ Form::label('name', 'Permission Name') }}
@@ -23,7 +23,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
+                {{ Form::submit('Edit', array('data-module'=>'create-permission','class' => 'btn btn-primary submit-form')) }}
                 <a href="{{ route('permissions.index') }}" class="btn btn-default ajax_anchor">Cancel</a>
             </div>
             {{ Form::close() }}
