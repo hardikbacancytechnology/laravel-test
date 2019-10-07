@@ -16,7 +16,6 @@ class HomeController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $hello = 'hello';
         return view('admin.home');
     }
     public function index1(){
