@@ -24,4 +24,7 @@ class HomeController extends Controller{
     public function index2(){
         echo "string";
     }
+    public function index3(){
+        echo "string";
+    }
 }
