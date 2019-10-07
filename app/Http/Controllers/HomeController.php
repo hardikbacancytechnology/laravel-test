@@ -21,4 +21,7 @@ class HomeController extends Controller{
     public function index1(){
         return view('admin.home1');
     }
+    public function index2(){
+        echo "string";
+    }
 }
