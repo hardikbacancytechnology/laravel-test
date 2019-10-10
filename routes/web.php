@@ -67,6 +67,10 @@ Route::get('user/{name?}', function ($name = 'John') {
 Route::get('401',function(){
     return view('errors.401');
 });
+Route::get('cloverWebhook',function(\Illuminate\Http\Request $request){
+  echo "<pre>";
+  print_r($request->all());
+});
 Route::get('queue-email-test', function(){
     $details['email'] = 'hardik.chauhan111@mailinator.com';
     dispatch(new SendEmailJob($details));
