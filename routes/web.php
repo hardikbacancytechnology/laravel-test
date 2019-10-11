@@ -68,8 +68,10 @@ Route::get('401',function(){
     return view('errors.401');
 });
 Route::get('cloverWebhook',function(\Illuminate\Http\Request $request){
-  echo "<pre>";
-  print_r($request->all());
+	header(trim("HTTP/1.1 200 SUCCESS"));
+	$content = json_decode(file_get_contents('php://input'),true);
+	$file = 'clover-data.txt';
+	file_put_contents($file, $content); 
 });
 Route::get('queue-email-test', function(){
     $details['email'] = 'hardik.chauhan111@mailinator.com';
